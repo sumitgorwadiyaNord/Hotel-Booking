@@ -5,7 +5,7 @@ A TypeScript SDK for interacting with Kohin's insurance protocol on the Polygon 
 ## Installation
 
 ```bash
-npm install kohin-sdk
+npm install kohin-sdk```
 
 
 ## Configuration
