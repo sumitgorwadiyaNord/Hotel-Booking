@@ -8,6 +8,14 @@ A TypeScript SDK for blockchain and DeFi applications, providing API calls with 
 npm install kohin-sdk
 ```
 
+## Environment Setup
+
+Create a `.env` file in your project root:
+
+```env
+VITE_RPC_URL="https://polygon-amoy.g.alchemy.com/v2/YOUR_ALCHEMY_KEY"
+```
+
 ## Quick Start
 
 ```typescript
@@ -17,7 +25,7 @@ import { Kohin } from 'kohin-sdk';
 const kohin = new Kohin('<ACCESS_KEY>', '<SECRET_KEY>');
 ```
 
-## Core Features
+## Key Features
 
 ### Betting Operations
 ```typescript
@@ -26,9 +34,6 @@ const activeBets = await kohin.getActiveBetData({ userId: '12345' });
 
 // Get Bet Details
 const betDetails = await kohin.getBetDetails({ betId: 123 });
-
-// Get Odds History
-const oddsHistory = await kohin.getOddsHistory({ eventId: 456 });
 ```
 
 ### Insurance Operations
@@ -50,46 +55,37 @@ const cover = await kohin.buyCover({
   slippagePercent: 5,
   coverPremium: 10
 });
+```
+
+### Liquidity Management
+```typescript
+// Approve Liquidity
+await kohin.approveLiquidity({ amount: 1000 });
 
 // Add Liquidity
-const liquidity = await kohin.addLiquidity({ amount: 1000 });
+await kohin.addLiquidity({ amount: 1000 });
+
+// Remove Liquidity
+await kohin.removeLiquidity(depositId, percent);
 ```
 
-### Utility Functions
-```typescript
-// Check if cover is booked
-const coverStatus = await kohin.hasCoverBooked({ betId: 123 });
-
-// Get combo bet limits
-const limits = await kohin.getComboBetLimits();
-
-// Get minimum deposit
-const minDeposit = await kohin.getMinDeposit();
-```
-
-## Important Notes
-
-- Ensure you have a valid access key and secret key
-- The SDK uses the Polygon network for smart contract interactions
-- Sufficient gas is required for blockchain transactions
-- All amounts are in the native token units
-
-## Requirements
+## Prerequisites
 
 - Node.js 14+
-- Web3 wallet for blockchain interactions
-- Polygon network connection
+- MetaMask or compatible Web3 wallet
+- Access to Polygon Amoy network
+- Valid API credentials (access key and secret key)
 
-## Dependencies
+## Network Configuration
 
-- axios
-- ethers
-- viem
-- dotenv
+The SDK is configured to work with the Polygon Amoy network. Ensure your wallet is connected to:
+- Network Name: Polygon Amoy
+- Chain ID: 80002
+- RPC URL: Your Alchemy RPC URL
 
 ## Error Handling
 
-All methods return a response object with the following structure:
+All methods return a response object with this structure:
 ```typescript
 {
   success: boolean;
@@ -97,6 +93,20 @@ All methods return a response object with the following structure:
   error?: string;
 }
 ```
+
+## Dependencies
+
+- axios: API requests
+- ethers: Blockchain interactions
+- viem: Web3 utilities
+- dotenv: Environment configuration
+
+## Security Notes
+
+- Never commit your `.env` file
+- Keep your access key and secret key secure
+- Always check transaction details before signing
+- Ensure sufficient gas for transactions
 
 ## License
 
