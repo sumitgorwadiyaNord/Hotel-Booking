@@ -4,7 +4,8 @@ A TypeScript SDK for interacting with Kohin's insurance protocol on the Polygon 
 
 ## Installation
 
-```npm install kohin-sdk```
+```bash
+npm install kohin-sdk
 
 
 ## Configuration
@@ -14,6 +15,7 @@ To use the SDK, you'll need:
 - A Web3 provider (the SDK is configured to work with Polygon Amoy testnet)
 
 ## Basic Usage
+
 import { Kohin } from 'kohin-sdk';
 // Initialize the SDK with your credentials
 const kohin = new Kohin('YOUR_ACCESS_KEY', 'YOUR_SECRET_KEY');
@@ -22,3 +24,20 @@ const kohin = new Kohin('YOUR_ACCESS_KEY', 'YOUR_SECRET_KEY');
 ## Core Features
 
 ### Betting Information
+
+// Import the required modules
+import { add } from './utils';
+
+// Define a function
+const greet = (name: string): string => {
+  return `Hello, ${name}!`;
+};
+
+typescript
+// Call the function
+console.log(greet("Chintan"));
+
+// Perform a calculation
+const result = add(2, 3);
+console.log(`The result is: ${result}`);
+
