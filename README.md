@@ -1,6 +1,6 @@
 # Kohin SDK
 
-A TypeScript SDK for blockchain and DeFi applications, providing API calls with access key and secret authentication.
+A TypeScript SDK for blockchain betting and insurance operations on the Polygon network.
 
 ## Installation
 
@@ -8,44 +8,69 @@ A TypeScript SDK for blockchain and DeFi applications, providing API calls with 
 npm install kohin-sdk
 ```
 
-## Environment Setup
+## Requirements
 
-Create a `.env` file in your project root:
+- Node.js 14+
+- Web3 Wallet (MetaMask)
+- Access Key and Secret Key
+- Polygon Network RPC URL
+
+## Environment Configuration
+
+Create a `.env` file:
 
 ```env
-VITE_RPC_URL="https://polygon-amoy.g.alchemy.com/v2/YOUR_ALCHEMY_KEY"
+VITE_ENV_MODE="test" # "test", "preprod", or "prod"
+VITE_RPC_URL="https://polygon-amoy.g.alchemy.com/v2/YOUR_KEY"
 ```
+
+## Network Support
+
+- Test: Polygon Amoy (Chain ID: 80002)
+- Production: Polygon Mainnet
 
 ## Quick Start
 
 ```typescript
-import { Kohin } from 'kohin-sdk';
+import { Kohin } from "kohin-sdk";
 
-// Initialize SDK with your credentials
-const kohin = new Kohin('<ACCESS_KEY>', '<SECRET_KEY>');
+// Initialize SDK with credentials
+const kohin = new Kohin("<ACCESS_KEY>", "<SECRET_KEY>");
 ```
 
-## Key Features
+## Core Features
 
 ### Betting Operations
+
 ```typescript
 // Get Active Bets
-const activeBets = await kohin.getActiveBetData({ userId: '12345' });
+const activeBets = await kohin.getActiveBetData({
+  bettorAddress: "0x...",
+  pageCount: 1,
+});
 
 // Get Bet Details
-const betDetails = await kohin.getBetDetails({ betId: 123 });
+const details = await kohin.getBetDetails({
+  betId: "0x...",
+});
+
+// Get Odds History
+const history = await kohin.getOddsHistory({
+  conditionId: "0x...",
+});
 ```
 
 ### Insurance Operations
+
 ```typescript
 // Calculate Premium
 const premium = await kohin.calculatePremium({
   betId: 123,
-  betType: "Express",
+  betType: "Express", // or "Ordinar"
   odds: 2.5,
   betAmount: 100,
   numLegs: 2,
-  maxSubBetLimit: 1000
+  maxSubBetLimit: 1000,
 });
 
 // Buy Cover
@@ -53,61 +78,62 @@ const cover = await kohin.buyCover({
   betId: 123,
   betType: "Express",
   slippagePercent: 5,
-  coverPremium: 10
+  coverPremium: BigInt(1000000), // 1 USDT (6 decimals)
 });
 ```
 
 ### Liquidity Management
-```typescript
-// Approve Liquidity
-await kohin.approveLiquidity({ amount: 1000 });
 
+```typescript
 // Add Liquidity
-await kohin.addLiquidity({ amount: 1000 });
+await kohin.approveLiquidity({ amount: 1000 });
+const deposit = await kohin.addLiquidity({ amount: 1000 });
 
 // Remove Liquidity
-await kohin.removeLiquidity(depositId, percent);
+const withdrawal = await kohin.removeLiquidity(depositId, 100); // 100%
 ```
 
-## Prerequisites
+## Response Types
 
-- Node.js 14+
-- MetaMask or compatible Web3 wallet
-- Access to Polygon Amoy network
-- Valid API credentials (access key and secret key)
+All methods return a consistent response format:
 
-## Network Configuration
-
-The SDK is configured to work with the Polygon Amoy network. Ensure your wallet is connected to:
-- Network Name: Polygon Amoy
-- Chain ID: 80002
-- RPC URL: Your Alchemy RPC URL
-
-## Error Handling
-
-All methods return a response object with this structure:
 ```typescript
-{
+interface ResponseData<T> {
   success: boolean;
   data?: T;
   error?: string;
 }
 ```
 
+## Error Handling
+
+```typescript
+try {
+  const result = await kohin.someOperation(params);
+  if (result.success) {
+    // Handle success
+  } else {
+    // Handle error
+  }
+} catch (error) {
+  // Handle unexpected errors
+}
+```
+
 ## Dependencies
 
+- viem: Web3 interactions
 - axios: API requests
-- ethers: Blockchain interactions
-- viem: Web3 utilities
-- dotenv: Environment configuration
+- typescript: Type definitions
 
-## Security Notes
+## Security Best Practices
 
-- Never commit your `.env` file
-- Keep your access key and secret key secure
-- Always check transaction details before signing
-- Ensure sufficient gas for transactions
+- Store credentials securely
+- Never commit `.env` files
+- Validate all transaction parameters
+- Maintain sufficient gas for transactions
+- Check MLR (Maximum Loss Ratio) before operations
 
 ## License
 
-MIT License
+MIT
