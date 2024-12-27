@@ -20,7 +20,7 @@ npm install kohin-sdk
 Create a `.env` file:
 
 ```env
-VITE_ENV_MODE="test" # "test", "preprod", or "prod"
+VITE_ENV_MODE="test"  # Choose between "test" or "prod" environments
 VITE_RPC_URL="https://polygon-amoy.g.alchemy.com/v2/YOUR_KEY"
 ```
 
